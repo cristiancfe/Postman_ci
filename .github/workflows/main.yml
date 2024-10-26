@@ -24,7 +24,7 @@ jobs:
       run: mkdir -p results
 
     - name: Run Postman Collection
-      run: newman run collection.json -e environment.json --reporters cli,htmlextra --reporter-htmlextra-export results/Report.html
+      run: newman run postman_collection.json -e postman_environment.json --reporters cli,htmlextra --reporter-htmlextra-export ./results/Report.html
 
     - name: Archive Postman Report
       if: ${{ always() }}
