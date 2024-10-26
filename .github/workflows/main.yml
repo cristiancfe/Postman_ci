@@ -24,14 +24,14 @@ jobs:
       run: mkdir -p results
 
     - name: Run Postman Collection
-      run: newman run ./collection.json -e ./environment.json --reporters cli,htmlextra --reporter-htmlextra-export results/Report.html
+      run: newman run collection.json -e environment.json --reporters cli,htmlextra --reporter-htmlextra-export results/Report.html
 
     - name: Archive Postman Report
       if: ${{ always() }}
       uses: actions/upload-artifact@v3
       with:
         name: Postman Report
-        path: ./results
+        path: results
 
     - name: Setup Pages
       uses: actions/configure-pages@v2
