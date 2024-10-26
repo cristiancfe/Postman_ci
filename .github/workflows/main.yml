@@ -27,7 +27,7 @@ jobs:
         
       # Runs a set of commands using the runners shell
     - name: Step 3 Execute collection
-      run: newman run ./collection.json -e ./environment.json --reporters cli, -r htmlextra --reporter-htmlextra-export ./results/Report.html
+      run: newman run collection.json -e environment.json --reporters cli, -r htmlextra --reporter-htmlextra-export ./results/Report.html
 
     - name: Arquive API Postman
       if: ${{always() }}
