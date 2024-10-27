@@ -28,7 +28,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: Relatorio
-        path: ./results/report.html
+        path: ./results
         
     - name: Setup Pages
       uses: actions/configure-pages@v2
@@ -36,7 +36,7 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v1
       with:
-        path: results/report.html
+        path: results/
 
     - name: Deploy to Github Pages
       id: deployment
