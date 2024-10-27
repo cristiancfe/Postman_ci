@@ -14,9 +14,10 @@ jobs:
 
     - name: Run Postman Collection
       run: |        
-        newman run PUT_collection.json  -e postman_environment.json,Newman.postman_environment.json  --reporters cli,htmlextra --reporter-htmlextra-export ./results/report.html    - name: Upload to Pages Artifact
-        uses: actions/upload-artifact@v3
-        with:
+        newman run PUT_collection.json  -e postman_environment.json  --reporters cli,htmlextra --reporter-htmlextra-export ./results/report.html 
+    - name: Upload to Pages Artifact
+      uses: actions/upload-artifact@v3
+      with:
         path: results
 
    
