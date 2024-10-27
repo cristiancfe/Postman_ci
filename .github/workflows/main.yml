@@ -11,28 +11,25 @@ jobs:
       id-token: write
     environment:
       name: github-pages
-      url: https://cristiancfe.github.io/Postman_ci/results/report.html
+      url: https://cristiancfe.github.io/Postman_ci/report.html
 
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
     - name: Install Newman and Reporter
-      run: npm install -g newman newman-reporter-htmlextra
-
-    - name: Create Results Directory
-      run: mkdir -p results
+      run: |
+        npm install -g newman newman-reporter-htmlextra
 
     - name: Run Postman Collection
-      run: newman run postman_collection.json -e postman_environment.json --reporters cli,htmlextra --reporter-htmlextra-export ./results/Report.html
-
+      run:  |
+        newman run postman_collection.json -e postman_environment.json --reporters cli,htmlextra --reporter-htmlextra-export ./results/Report.html
     - name: Archive Postman Report
       if: ${{ always() }}
       uses: actions/upload-artifact@v3
       with:
-        name: Postman Report
+        name: Postman-Report
         path: ./results
-
     - name: Setup Pages
       uses: actions/configure-pages@v2
 
