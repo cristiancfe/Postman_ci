@@ -22,7 +22,7 @@ jobs:
 
     - name: Run Postman Collection
       run: |        
-        newman run PUT_collection.json  -e postman_environment.json  --reporters cli,htmlextra --reporter-htmlextra-export  results/report.html 
+        newman run PUT_collection.json  -e postman_environment.json  --reporters cli,htmlextra --reporter-htmlextra-export  ./results/report.html 
     - name: Salvar arquivos
       if: ${{always()}}
       uses: actions/upload-artifact@v3
