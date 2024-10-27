@@ -11,9 +11,13 @@ on:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+     contents: read
+     pages: write
+     id-token: write
+     environment:
+       name: github-pages
+       url: https://cristiancfe.github.io/postman_ci/report.html
+
 
 # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
 # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
@@ -28,16 +32,42 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          # Upload entire repository
-          path: '.'
-      - name: Deploy to GitHub Pages
+    steps:   
+
+    - name: Install dependencies
+      run:  |
+        pip install robotframework
+        pip install robotframework-requests
+        pip install robotframework-faker
+        python3 -m pip install robotframework-seleniumlibrary
+        python -m pip install robotframework-seleniumlibrary
+        pip install --upgrade robotframework-seleniumlibrary
+        pip3 install --upgrade robotframework-seleniumlibrary
+        pip install setuptools
+
+    
+    - name: Step 1 Check version Newman and Node
+      run: |
+        newman --version
+        node --version
+          
+      # Runs a single command using the runners shell      
+    - name: Step 2 Install Newman-Reporter-Htmlextra
+      run: sudo npm install -g newman-reporter-htmlextra
+      
+      # Runs a set of commands using the runners shell
+    - name: Step 3 Execute collection
+      run: newman run ./collection.json -e ./env.json --reporters cli, -r htmlextra --reporter-htmlextra-export ./results/Report.html
+
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Setup Pages
+      uses: actions/configure-pages@v5
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+       with:
+         # Upload entire repository
+        path: './results/'
+   - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
