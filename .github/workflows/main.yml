@@ -23,7 +23,7 @@ jobs:
 
     - name: Run Postman Collection
       run:  |        
-        newman run postman_collection.json -e  postman_environment.json -e  Newman.postman_environment.json --reporters cli,htmlextra --reporter-htmlextra-export ./results/report.html
+        newman run postman_collection.json  -e  postman_environment.json  --reporters cli,htmlextra --reporter-htmlextra-export ./results/report.html
     - name: Archive Postman Report
       if: ${{ always() }}
       uses: actions/upload-artifact@v3
