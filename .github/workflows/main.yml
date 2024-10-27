@@ -28,7 +28,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: Artefato
-        path: ./results
+        path: ./results/report.html
         
     - name: Setup Pages
       uses: actions/configure-pages@v2
