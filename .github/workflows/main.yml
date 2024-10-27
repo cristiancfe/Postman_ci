@@ -28,15 +28,15 @@ jobs:
       if: ${{ always() }}
       uses: actions/upload-artifact@v3
       with:
-        name: Postman-Report
-        path: ./results/report.html
+        name: Postman-Relatorio
+        path: results/report.html
     - name: Setup Pages
       uses: actions/configure-pages@v2
 
     - name: Upload to Pages Artifact
       uses: actions/upload-pages-artifact@v1
       with:
-        path: ./results/report.html/
+        path: results/report.html/
 
     - name: Deploy to GitHub Pages
       id: deployment
