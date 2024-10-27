@@ -40,5 +40,5 @@ jobs:
       id: deployment
       uses: actions/deploy-pages@v1
       with:
-         path: results/
+         path: results/report.html
    
