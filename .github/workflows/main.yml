@@ -4,15 +4,6 @@ jobs:
   test:
     name: Run Testes
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: https://cristiancfe.github.io/Postman_ci/report.html
-
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
@@ -23,21 +14,9 @@ jobs:
 
     - name: Run Postman Collection
       run:  |        
-        newman run postman_collection.json  -e  postman_environment.json  --reporters cli,htmlextra --reporter-htmlextra-export ./results/report.html
-    - name: Archive Postman Report
-      if: ${{ always() }}
-      uses: actions/upload-artifact@v3
-      with:
-        name: Postman-Relatorio
-        path: results/report.html
-    - name: Setup Pages
-      uses: actions/configure-pages@v2
+        newman run postman_collection.json  -e  postman_environment.json  --reporters cli,htmlextra --reporter-htmlextra-export ./results/report.html    - name: Upload to Pages Artifact
+        uses: actions/upload-artifact@v3
+        with:
+        path: results
 
-    - name: Upload to Pages Artifact
-      uses: actions/upload-pages-artifact@v3
-      with:
-        path: results/report.html/
-
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v1
+   
