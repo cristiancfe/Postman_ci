@@ -18,6 +18,6 @@ jobs:
     - name: Upload to Pages Artifact
       uses: actions/upload-artifact@v3
       with:
-        path: results
+        path: ./results/
 
    
