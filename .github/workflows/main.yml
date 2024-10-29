@@ -1,0 +1,57 @@
+name: Run Newman Tests and Deploy HTML Report to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  newman-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install Newman
+        run: npm install -g newman newman-reporter-html
+
+      - name: Run Newman Collection
+        run: |
+          newman run path/to/your/collection.json \
+          -e path/to/your/environment.json \
+          -r html --reporter-html-export report.html
+
+      - name: Upload Report as Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: newman-report
+          path: report.html
+
+  deploy:
+    needs: newman-test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Download Report Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: newman-report
+          path: ./report
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v2
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./report
