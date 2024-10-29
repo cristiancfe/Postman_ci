@@ -44,12 +44,12 @@ jobs:
       uses: actions/configure-pages@v2
 
     - name: Copy Report to Root for Pages
-      run: cp ./results/newman/report.html ./report.html
+      run: cp -r ./results/newman/* .
 
     - name: Upload Pages Artifact
       uses: actions/upload-pages-artifact@v1
       with:
-        path: ./report.html
+        path: ./
 
     - name: Deploy to GitHub Pages
       id: deployment
