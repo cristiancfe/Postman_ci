@@ -51,7 +51,7 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v1
       with:
-        path: ./results/newman/report.html
+        path: ./results/newman/
 
     - name: Deploy to Github Pages
       id: deployment
