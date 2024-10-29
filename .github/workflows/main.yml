@@ -29,7 +29,6 @@ jobs:
 
     - name: Run Postman Tests
       run: |
-        mkdir -p ./results/newman
         newman run cristianEisenhut-postman_collection.json -e cristianEisenhut-postman_environment.json -r htmlextra --reporter-htmlextra-export ./results/report.html
 
     - name: Archive Postman Results
