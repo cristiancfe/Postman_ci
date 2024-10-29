@@ -30,7 +30,13 @@ jobs:
     - name: Testes Postman API
       run: |       
        newman run cristianEisenhut-postman_collection.json -e cristianEisenhut-postman_environment.json -r htmlextra --reporter-htmlextra-export ./results/report.html
+  ## teste
+    - name: Create Results Directory
+      run: mkdir -p ./results
 
+    - name: Move Report to Results Folder
+      run: mv ./report.html ./results/
+  ##fim do testes
     - name: Archive Postman results
       if: ${{ always() }}
       uses: actions/upload-artifact@v3
