@@ -11,7 +11,7 @@ jobs:
       id-token: write
     environment:
       name: github-pages
-      url: https://cristiancfe.github.io/postman_ci/results/newman/report.html
+      url: https://cristiancfe.github.io/postman_ci/results/newman/
 
     steps:
     - name: Checkout Repository
