@@ -25,12 +25,11 @@ jobs:
     - name: Install dependencies
       run: |
         npm install -g newman
-        npm install -g newman-reporter-htmlextra
-        npm install -g newman newman-reporter-html
-
+        npm i -g newman-reporter-htmlextra
+       
     - name: Testes Postman API
       run: |       
-       newman run cristianEisenhut-postman_collection.json -e cristianEisenhut-postman_environment.json -r htmlextra --reporter-htmlextra-title "Postman"   ./results/report.html
+       newman run cristianEisenhut-postman_collection.json -e cristianEisenhut-postman_environment.json -r --reporter-htmlextra-export   ./results/report.html
 
     - name: Archive Postman results
       if: ${{ always() }}
