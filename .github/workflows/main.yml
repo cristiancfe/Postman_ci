@@ -29,9 +29,8 @@ jobs:
         npm install -g newman newman-reporter-html
 
     - name: Testes Postman API
-      run: |
-       
-        newman run postman_collection.json -e postman_environment.json -r html --reporter-html-export  ./results/report.html
+      run: |       
+        newman run postman_collection.json -e postman_environment.json -r html --reporter-html-export  
 
     - name: Archive Postman results
       if: ${{ always() }}
