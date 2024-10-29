@@ -30,7 +30,7 @@ jobs:
            newman run collection.json  -e environment.json -r html --reporter-html-export   
     - name: Testes Postman API
       run:  |
-         newman run collection.json  -e environment.json -r html --reporter-html-export  
+         newman run postman_collection.json  -e postman_environment.json -e Newman.postman_environment.json -r html --reporter-html-export  
         
     - name: Arquive Postman results 
       if: ${{always() }}
