@@ -29,7 +29,7 @@ jobs:
        
     - name: Testes Postman API
       run: |       
-       newman run cristianEisenhut-postman_collection.json -e cristianEisenhut-postman_environment.json -r htmlextra --reporter-htmlextra-export ./results/Report.html --insecure
+       newman run cristianEisenhut-postman_collection.json -e cristianEisenhut-postman_environment.json -r htmlextra  ./results/Report.html --insecure
 
     - name: Archive Postman results
       if: ${{ always() }}
