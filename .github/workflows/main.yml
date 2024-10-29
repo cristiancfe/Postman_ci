@@ -1,57 +1,59 @@
-name: Run Newman Tests and Deploy HTML Report to GitHub Pages
-
-on:
-  push:
-    branches:
-      - main
-
+name: Postman API
+on: push
 jobs:
-  newman-test:
+  test:
+    name: Run Testes
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Install Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-
-      - name: Install Newman
-        run: npm install -g newman newman-reporter-html
-
-      - name: Run Newman Collection
-        run: |
-          newman run path/to/your/collection.json \
-          -e path/to/your/environment.json \
-          -r html --reporter-html-export report.html
-
-      - name: Upload Report as Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: newman-report
-          path: report.html
-
-  deploy:
-    needs: newman-test
-    runs-on: ubuntu-latest
+    permissions:
+     contents: read
+     pages: write
+     id-token: write
+    environment:
+      name: github-pages
+      url: https://cristiancfe.github.io/postman_ci/report.html
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+    - name: checkout Repository 
+      uses: actions/checkout@v2
 
-      - name: Download Report Artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: newman-report
-          path: ./report
+    - name: Set up Python 
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v2
+    - name: Install dependencies
+      run: |
+           npm install -g newman
+           npm install -g newman-reporter-htmlextra
+           npm install -g newman newman-reporter-html
+           newman run collection.json  -e environment.json -r html --reporter-html-export   
+    - name: Testes Postman API
+      run:  |
+         newman run collection.json  -e environment.json -r html --reporter-html-export  
+        
+    - name: Arquive Postman results 
+      if: ${{always() }}
+      uses: actions/upload-artifact@v3
+      with:
+        name: Postman results
+        path: ./results
+      #Pages configuração  
+    - name: Setup Pages
+      uses: actions/configure-pages@v2
 
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./report
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v1
+      with:
+        path: ./results/
+
+    - name: Deploy to Github Pages
+      id: deployment
+      uses: actions/deploy-pages@v1
+
+
+     
+
+     
+  
+    
