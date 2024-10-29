@@ -31,7 +31,7 @@ jobs:
     - name: Testes Postman API
       run: |
         mkdir -p results
-        newman run postman_collection.json -e postman_environment.json -r html --reporter-html-export results/report.html
+        newman run postman_collection.json -e postman_environment.json -r html --reporter-html-export  ./results/report.html
 
     - name: Archive Postman results
       if: ${{ always() }}
