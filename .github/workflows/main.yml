@@ -2,7 +2,7 @@ name: Postman API
 on: push
 jobs:
   test:
-    name: Run Testes
+    name: Run Tests
     runs-on: ubuntu-latest
 
     permissions:
@@ -11,39 +11,40 @@ jobs:
       id-token: write
     environment:
       name: github-pages
-      url: https://cristiancfe.github.io/postman_ci/results.html
+      url: https://cristiancfe.github.io/postman_ci/results/results.html
      
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
-    - name: Install dependencies
+    - name: Install Node.js and Newman
       run: |
-        npm install newman-reporter-htmlextra
+        sudo apt-get install -y nodejs
+        sudo npm install -g newman newman-reporter-htmlextra
         node --version
         newman --version
-       
-    - name: Testes Postman API
+
+    - name: Run Postman Tests
       run: |       
-       newman run cristianEisenhut-postman_collection.json -e cristianEisenhut-postman_environment.json -r htmlextra --reporter-htmlextra-export  ./results.html
+        mkdir -p results
+        newman run cristianEisenhut-postman_collection.json -e cristianEisenhut-postman_environment.json -r htmlextra --reporter-htmlextra-export ./results/results.html
  
-    - name: Archive Postman results
+    - name: Archive Postman Results
       if: ${{ always() }}
       uses: actions/upload-artifact@v3
       with:
         name: report
-        path: ./results.html
+        path: ./results/results.html
 
-    # Configuração do Pages
+    # GitHub Pages Configuration
     - name: Setup Pages
       uses: actions/configure-pages@v2
 
-    - name: Upload artifact
+    - name: Upload Artifact to Pages
       uses: actions/upload-pages-artifact@v1
       with:
-        path: ./results.html
+        path: ./results
         
-    - name: Deploy to Github Pages
+    - name: Deploy to GitHub Pages
       id: deployment
       uses: actions/deploy-pages@v1
-      
