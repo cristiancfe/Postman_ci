@@ -29,14 +29,14 @@ jobs:
        
     - name: Testes Postman API
       run: |       
-       newman run cristianEisenhut-postman_collection.json -e cristianEisenhut-postman_environment.json -r htmlextra --reporter-htmlextra-export ./report.html
+       newman run cristianEisenhut-postman_collection.json -e cristianEisenhut-postman_environment.json -r htmlextra --reporter-htmlextra-export ./results/report.html
  
     - name: Archive Postman results
       if: ${{ always() }}
       uses: actions/upload-artifact@v3
       with:
         name: Postman Relatório
-        path: ./newman/report.html
+        path: ./results
 
     # Configuração do Pages
     - name: Setup Pages
@@ -45,8 +45,8 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v1
       with:
-        path: ./newman/report.html/
-
+        path: ./results/
+        
     - name: Deploy to Github Pages
       id: deployment
       uses: actions/deploy-pages@v1
