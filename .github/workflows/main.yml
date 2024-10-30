@@ -36,7 +36,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: Postman Relatório
-        path: ./report.html
+        path: ./newman/report.html
 
     # Configuração do Pages
     - name: Setup Pages
@@ -45,7 +45,7 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v1
       with:
-        path: report.html/
+        path: ./newman/report.html/
 
     - name: Deploy to Github Pages
       id: deployment
