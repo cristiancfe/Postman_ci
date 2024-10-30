@@ -1,4 +1,4 @@
-ultsname: Postman API
+name: Postman API
 on: push
 jobs:
   test:
