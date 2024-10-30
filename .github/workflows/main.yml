@@ -11,7 +11,7 @@ jobs:
       id-token: write
     environment:
       name: github-pages
-      url: https://cristiancfe.github.io/postman_ci/results/report.html
+      url: https://cristiancfe.github.io/postman_ci/report.html
 
     steps:
     - name: Checkout Repository
@@ -29,14 +29,14 @@ jobs:
        
     - name: Testes Postman API
       run: |       
-       newman run cristianEisenhut-postman_collection.json -e cristianEisenhut-postman_environment.json -r htmlextra --reporter-htmlextra-export ./results/report.html
+       newman run cristianEisenhut-postman_collection.json -e cristianEisenhut-postman_environment.json -r htmlextra --reporter-htmlextra-export ./report.html
  
     - name: Archive Postman results
       if: ${{ always() }}
       uses: actions/upload-artifact@v3
       with:
         name: Postman Relatório
-        path: ./results
+        path: ./report.html
 
     # Configuração do Pages
     - name: Setup Pages
@@ -45,7 +45,7 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v1
       with:
-        path: results/newman/report.html
+        path: report.html/
 
     - name: Deploy to Github Pages
       id: deployment
