@@ -2,50 +2,27 @@ name: Postman API
 on: push
 jobs:
   test:
-    name: Run Tests
     runs-on: ubuntu-latest
-
     permissions:
-      contents: read
       pages: write
       id-token: write
-    environment:
-      name: github-pages
-      url: https://cristiancfe.github.io/postman_ci/results/results.html
 
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
-    - name: Install Node.js and Newman
+    - name: Install Dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y nodejs npm
         npm install -g newman newman-reporter-htmlextra
-        node --version
-        newman --version
 
     - name: Run Postman Tests
       run: |
         mkdir -p results
         newman run cristianEisenhut-postman_collection.json -e cristianEisenhut-postman_environment.json -r htmlextra --reporter-htmlextra-export ./results/results.html
 
-    - name: Archive Postman Results
-      if: ${{ always() }}
-      uses: actions/upload-artifact@v3
-      with:
-        name: report
-        path: ./results/results.html
-
-    # GitHub Pages Configuration
-    - name: Setup Pages
-      uses: actions/configure-pages@v2
-
-    - name: Upload Artifact to Pages
-      uses: actions/upload-pages-artifact@v1
+    - name: Deploy to GitHub Pages
+      uses: actions/deploy-pages@v1
       with:
         path: ./results
-
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v1
