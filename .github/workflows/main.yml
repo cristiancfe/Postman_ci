@@ -31,7 +31,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: Postman Relatório
-        path: ./results/newman
+        path: ./results/newman/report.html
 
     # Configuração do Pages
     - name: Setup Pages
