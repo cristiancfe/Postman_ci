@@ -21,6 +21,7 @@ jobs:
       run: |
         npm install -g newman
         npm i -g newman-reporter-htmlextra
+        node --version
        
     - name: Testes Postman API
       run: |       
