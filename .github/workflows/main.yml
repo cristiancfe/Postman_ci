@@ -21,7 +21,6 @@ jobs:
       
       - name: Etapa 02 - Html Extra Reporter
         run: |
-          npm fund
           npm install -g newman
           sudo npm install -g newman-reporter-htmlextra        
 
