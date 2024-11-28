@@ -9,12 +9,16 @@ on:
 jobs:
   test:
     name: Testes API
-    runs-on: ubuntu-latest   
+    runs-on: ubuntu-latest  
+     permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: https://cristiancfe.github.io/postman_ci/Report.html
     steps:
-      - name: Copiando os arquivos para maquina virtual
-        uses: actions/checkout@v4
-
-     
+      - uses: actions/checkout@v4   
       - name: Etapa 01 - Verificação versão do Node e Newman
         run: |
           newman --version && node --version && ls              
@@ -27,11 +31,11 @@ jobs:
      
       - name: Etapa 03 - Rodando as Collections de Testes
         run: |
-          newman run "collection.json" environment "environment.json" --delay-request 1 --reporters cli, -r htmlextra --reporter-htmlextra-export ./result/Report.html
+          newman run "collection.json" -e "environment.json" --delay-request 1 --reporters cli, -r htmlextra --reporter-htmlextra-export ./result/Report.html
     
       - name: Etapa 04 - Salvando o Resultado dos Testes
+        if:  ${{always() }}
         uses: actions/upload-artifact@v4
-        if: always()
         with:
           name: report
           path: ./result/
@@ -39,30 +43,26 @@ jobs:
   deploy:
     name: Deploy GitHub Pages 🌐
     runs-on: ubuntu-latest
-    if: always()
-    needs: 
-      - test
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: https://cristiancfe.github.io/postman_ci/Report.html
+    if:  ${{always() }}   
+   
     steps:
       - name: Setup Pages
+        if: ${{ always() }}
         uses: actions/configure-pages@v5
 
       - name: Download Artifacts
+        if: ${{ always() }}
         uses: actions/download-artifact@v4
         with: 
           name: report
 
       - name: Upload artifact
+        if: ${{ always() }}
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./
 
       - name: Deploy to Github Pages
+        if: ${{ always() }}
         id: deployment
         uses: actions/deploy-pages@v4
